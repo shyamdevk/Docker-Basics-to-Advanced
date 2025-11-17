@@ -916,6 +916,358 @@ In a bridge network with CIDR `172.17.0.0/16`, the following IPs are reserved:
 
 ---
 
+# 🚀 Docker LAN Lab: Custom Bridge Network & Container Networking
+
+This lab demonstrates how to:
+
+* Create a **custom Docker bridge network**
+* Run an Nginx container
+* **Detach** the Nginx container from its default network
+* **Attach** it to a new custom bridge network
+* Create a new container directly on the bridge
+* Verify communication between containers
+* Use all important **Docker network commands**
+
+Perfect for DevOps, Docker networking, and exam preparation.
+
+---
+
+## 📘 **1. Overview**
+
+Docker networking allows containers to communicate internally and externally.
+This lab focuses on **bridge mode networking**, the most common network mode in Docker.
+
+We will build a **custom LAN-like network**, attach containers, and test networking.
+
+---
+
+## 🛠 **2. Create a Custom Bridge Network**
+
+```bash
+docker network create my-bridge
+```
+
+✔ Creates an isolated Docker LAN
+✔ Containers in this network can talk to each other
+✔ Gets its own subnet, gateway, and bridge
+
+---
+
+## 🐳 **3. Run an Nginx Container (Default Bridge Network)**
+
+```bash
+docker run -d --name mynginx nginx
+```
+
+✔ Starts an Nginx server
+✔ Automatically joins Docker’s default `bridge` network
+
+---
+
+## 🔍 **4. Inspect Existing Docker Bridge Network**
+
+```bash
+docker network inspect bridge
+```
+
+✔ Confirms that `mynginx` is currently attached to the default network
+
+---
+
+## 🔌 **5. Disconnect Nginx from the Default Bridge**
+
+```bash
+docker network disconnect bridge mynginx
+```
+
+✔ Removes Nginx from the default bridge
+✔ Now it has **no network attached**
+
+---
+
+## 🔗 **6. Connect Nginx to the New Custom Network**
+
+```bash
+docker network connect my-bridge mynginx
+```
+
+✔ Adds Nginx to the custom bridge
+✔ Does *not* restart the container
+
+---
+
+## 🆕 **7. Create a New Container Directly in the Bridge Network**
+
+```bash
+docker run -d --name alpine1 --network my-bridge alpine sleep infinity
+```
+
+✔ Starts a lightweight Alpine container
+✔ Automatically joins **my-bridge**
+
+---
+
+## 🔍 **8. Verify Network Attachments**
+
+```bash
+docker network inspect my-bridge
+```
+
+You should see:
+
+* `mynginx`
+* `alpine1`
+
+✔ Confirms both containers are inside the same virtual LAN
+
+---
+
+## 📡 **9. Test Connectivity Between Containers**
+
+```bash
+docker exec -it alpine1 ping mynginx
+```
+
+✔ Successful ping = Containers can communicate
+✔ DNS resolution works using container names
+
+---
+
+# 📚 **10. Important Docker Network Commands**
+
+Below are essential commands used in Docker networking:
+
+---
+
+### **🔸 List All Docker Networks**
+
+```bash
+docker network ls
+```
+
+### **🔸 Inspect a Specific Network**
+
+```bash
+docker network inspect <network-name>
+```
+
+### **🔸 Create a User-Defined Bridge Network**
+
+```bash
+docker network create my-bridge
+```
+
+> Note: If `--driver` is not provided, Docker defaults to **bridge**.
+
+### **🔸 Run a Container on a Specific Network**
+
+```bash
+docker run -dit --name container1 --network my-bridge ubuntu
+```
+
+### **🔸 Remove a User-Defined Network**
+
+```bash
+docker network rm my-bridge
+```
+
+### **🔸 Connect an Existing Container to a Network**
+
+```bash
+docker network connect my-bridge container2
+```
+
+### **🔸 Disconnect a Container from a Network**
+
+```bash
+docker network disconnect my-bridge container2
+```
+
+---
+
+# 🧠 **11. Summary of the Lab**
+
+* Created a custom **bridge network**
+* Launched Nginx and detached it from the default network
+* Re-attached it to a new network
+* Created another container directly on the custom network
+* Verified the setup using inspect and ping
+* Included all key Docker network commands
+
+---
+
+# 🚀 Docker LAN Lab: Custom Bridge Network & Container Networking
+
+This lab demonstrates how to:
+
+* Create a **custom Docker bridge network**
+* Run an Nginx container
+* **Detach** the Nginx container from its default network
+* **Attach** the same Nginx container to the new custom network
+* Create a new container directly connected to the custom network
+* Verify and test communication between containers
+
+Perfect for DevOps, Docker networking, and practical exam notes.
+
+---
+
+## 📘 **1. Overview**
+
+Docker provides networking so that containers can communicate with:
+
+* Each other
+* The host
+* The outside world
+
+The **bridge network** is the default network that Docker creates (`docker0`).
+In this lab, we will **manually create a custom bridge**, attach containers to it, and test communication.
+
+---
+
+## 🛠 **2. Create a Custom Bridge Network**
+
+Create a new Docker network of type **bridge**:
+
+```bash
+docker network create my-bridge
+```
+
+### ✔ What this does:
+
+* Creates a virtual LAN inside Docker
+* All containers added to this network can communicate with each other
+* Provides its own IP range, gateway, and subnet
+
+---
+
+## 🐳 **3. Run an Nginx Container (Initially on Default Bridge)**
+
+Run Nginx normally (it attaches to the default `bridge`):
+
+```bash
+docker run -d --name mynginx nginx
+```
+
+### ✔ What this does:
+
+* Starts an Nginx server in detached mode
+* Connects it to the default Docker bridge network automatically
+
+---
+
+## 🔍 **4. Check Existing Networks for the Container**
+
+View details of the default bridge network:
+
+```bash
+docker network inspect bridge
+```
+
+### ✔ Why?
+
+To confirm that **mynginx** is connected to the default network before disconnecting it.
+
+---
+
+## 🔌 **5. Disconnect Nginx from the Default Bridge Network**
+
+```bash
+docker network disconnect bridge mynginx
+```
+
+### ✔ What this does:
+
+* Removes Nginx from the default Docker network
+* Now Nginx is not part of any network
+* It cannot communicate with other containers until attached to another network
+
+---
+
+## 🔗 **6. Connect Nginx to the New Custom Bridge Network**
+
+```bash
+docker network connect my-bridge mynginx
+```
+
+### ✔ Why?
+
+This attaches the existing Nginx container to our new network **without restarting the container**.
+
+---
+
+## 🆕 **7. Create a New Container on the Custom Bridge Network**
+
+Create a new Alpine container and attach it to **my-bridge** at creation time:
+
+```bash
+docker run -d --name alpine1 --network my-bridge alpine sleep infinity
+```
+
+### ✔ Explanation:
+
+* Uses Alpine Linux (lightweight)
+* Stays running using `sleep infinity`
+* Automatically connected to **my-bridge**
+
+---
+
+## 🔍 **8. Verify Both Containers Are Connected to the New Bridge**
+
+```bash
+docker network inspect my-bridge
+```
+
+You should see:
+
+* `mynginx`
+* `alpine1`
+
+Inside the network’s **Containers** section.
+
+This confirms both are on the same LAN-like virtual network.
+
+---
+
+## 📡 **9. Test Connectivity Between Containers**
+
+From `alpine1` container, ping the `mynginx` container:
+
+```bash
+docker exec -it alpine1 ping mynginx
+```
+
+### ✔ Expected Output:
+
+You will see ping replies, meaning:
+
+* Containers can resolve each other by **name**
+* Both are on the same DHCP/subnet
+* Communication is successful
+
+---
+
+## 🧠 **10. Summary**
+
+| Step                 | Description                                                              |
+| -------------------- | ------------------------------------------------------------------------ |
+| Create network       | `docker network create my-bridge`                                        |
+| Run nginx            | `docker run -d --name mynginx nginx`                                     |
+| Disconnect           | `docker network disconnect bridge mynginx`                               |
+| Connect              | `docker network connect my-bridge mynginx`                               |
+| Create new container | `docker run -d --name alpine1 --network my-bridge alpine sleep infinity` |
+| Inspect              | `docker network inspect my-bridge`                                       |
+| Test                 | `docker exec -it alpine1 ping mynginx`                                   |
+
+---
+
+## 🎯 **Final Result**
+
+* You have created a **custom isolated LAN** inside Docker
+* Successfully moved an existing container into it
+* Created a new container directly inside the network
+* Verified network communication works perfectly
+
+---
 
 
 
