@@ -1136,6 +1136,19 @@ You will see ping replies, meaning:
 * Created a new container directly inside the network
 * Verified network communication works perfectly
 
+  Here is the **README-friendly version**, clean and formatted:
+
+---
+
+## 📎 Reference
+
+For a basic Docker project example, you can refer to the following repository:
+
+🔗 **Docker Word Counter App**
+GitHub: *[https://github.com/shyamdevk/Docker-Word-Counter-App](https://github.com/shyamdevk/Docker-Word-Counter-App)*
+
+---
+
 ---
 # 🐳 Docker Storage – Complete Notes (4 Types)
 
@@ -1177,6 +1190,7 @@ docker run ubuntu touch /test.txt
 
 ✔ Most recommended method for saving data
 ✔ Managed completely by Docker
+✔ Stored in Docker's directory on the host (/var/lib/docker/volumes/ on Linux)
 ✔ Stored on host machine under `/var/lib/docker/volumes/`
 ✔ **Persists even if the container is deleted**
 
@@ -1209,6 +1223,58 @@ List volumes:
 ```bash
 docker volume ls
 ```
+
+# 🐳 Docker Volumes: Named vs Anonymous
+
+This document explains the difference between **Named Volumes** and **Anonymous Volumes** in Docker in a simple and clear way.
+
+---
+
+## ✅ Named Volume
+
+A **named volume** is a volume that **you assign a name to**.
+It is easy to manage, reuse, and identify.
+
+### **Syntax**
+
+```bash
+docker run -v myvolume:/path/in/container image
+```
+
+### **Best Use**
+
+* Persistent data
+* Databases
+* When you want to reuse the volume later
+
+---
+
+## ✅ Anonymous Volume
+
+An **anonymous volume** is created **automatically by Docker** when no name is given.
+The name is a long random string.
+
+### **Syntax**
+
+```bash
+docker run -v /path/in/container image
+```
+
+### **Best Use**
+
+* Temporary containers
+* When you don’t need to track the volume
+
+---
+
+## 📊 Comparison Table
+
+| Type                 | Meaning                             | Syntax           | Best Use                   |
+| -------------------- | ----------------------------------- | ---------------- | -------------------------- |
+| **Named Volume**     | Volume with a name you choose       | `-v myvol:/data` | Persistent data, databases |
+| **Anonymous Volume** | Docker creates a random-name volume | `-v /data`       | Temporary containers       |
+
+---
 
 ---
 
