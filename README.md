@@ -1137,6 +1137,147 @@ You will see ping replies, meaning:
 * Verified network communication works perfectly
 
 ---
+# 🐳 Docker Storage – Complete Notes (4 Types)
 
+Docker provides multiple storage mechanisms to handle data inside containers.
+Some data is **temporary (ephemeral)**, and some is **persistent** even after container deletion.
+
+This guide explains all **4 types of Docker storage** in a simple and clear way.
+
+---
+
+## 📌 **1. Ephemeral Storage (Container Filesystem)**
+
+Also called: *Storage Driver Layer*
+
+✔ Default storage available **inside every container**
+✔ Managed by Docker storage drivers: `overlay2`, `AUFS`, `btrfs`, etc.
+❌ **Temporary / Ephemeral** → **data is lost** when container stops or is removed
+
+### 🔹 **Use Case**
+
+* Temporary files
+* Cache
+* Runtime working directory
+
+### 🔹 **Simple Meaning**
+
+➡️ *Temporary storage inside the container. Deleted when container is removed.*
+
+### 🔹 Example
+
+```bash
+docker run ubuntu touch /test.txt
+# After container stops → file disappears
+```
+
+---
+
+## 📌 **2. Docker Volumes (Persistent Storage)**
+
+✔ Most recommended method for saving data
+✔ Managed completely by Docker
+✔ Stored on host machine under `/var/lib/docker/volumes/`
+✔ **Persists even if the container is deleted**
+
+### 🔹 **Use Case**
+
+* Databases
+* Logs
+* Application data
+
+### 🔹 **Simple Meaning**
+
+➡️ *Permanent storage created by Docker. Safe even if container is deleted.*
+
+### 🔹 Commands
+
+Create a volume:
+
+```bash
+docker volume create mydata
+```
+
+Use volume in a container:
+
+```bash
+docker run -v mydata:/var/lib/mysql mysql
+```
+
+List volumes:
+
+```bash
+docker volume ls
+```
+
+---
+
+## 📌 **3. Bind Mounts**
+
+✔ Directly maps a **host system folder or file** into a container
+✔ You define the **exact path**, Docker doesn’t manage it
+✔ Great for developers → auto-reload source code
+
+### 🔹 **Use Case**
+
+* Local development
+* Sharing configuration files
+* Real-time code changes
+
+### 🔹 **Simple Meaning**
+
+➡️ *Links a folder from your laptop/server directly into the container.*
+
+### 🔹 Example
+
+```bash
+docker run -v /home/user/app:/app python:3.10
+```
+
+---
+
+## 📌 **4. tmpfs Mounts (In-memory)**
+
+✔ Stored in **RAM**, not on disk
+✔ Very fast
+✔ Automatically deleted when container stops
+✔ Good for sensitive data → never written to disk
+
+### 🔹 **Use Case**
+
+* Sensitive keys
+* High-speed temporary operations
+
+### 🔹 **Simple Meaning**
+
+➡️ *Storage in RAM. Fast, temporary, and not saved to disk.*
+
+### 🔹 Example
+
+```bash
+docker run --tmpfs /secure_data:rw nginx
+```
+
+---
+
+# 📊 Quick Comparison Table
+
+| Storage Type                 | Persistent? | Location                 | Best Use Case                |
+| ---------------------------- | ----------- | ------------------------ | ---------------------------- |
+| **Ephemeral (Container FS)** | ❌ No        | Inside container         | Temporary data, cache        |
+| **Volume**                   | ✔ Yes       | Host (Docker-managed)    | Databases, production data   |
+| **Bind Mount**               | ✔ Yes       | Host (user-defined path) | Development, config files    |
+| **tmpfs**                    | ❌ No        | RAM                      | Sensitive or high-speed data |
+
+---
+
+# 🧠 Summary (Easy to Remember)
+
+* **Ephemeral** → Temporary → *lost when container dies*
+* **Volume** → Persistent → *Docker-managed*
+* **Bind Mount** → Persistent → *Host folder directly mapped*
+* **tmpfs** → RAM → *fast + secure but temporary*
+
+---
 
 
