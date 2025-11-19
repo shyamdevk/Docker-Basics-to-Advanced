@@ -1279,5 +1279,20 @@ docker run --tmpfs /secure_data:rw nginx
 * **tmpfs** → RAM → *fast + secure but temporary*
 
 ---
+Here is your **README.md–ready version**, clean and properly formatted:
+
+---
+
+# 📦 Docker Volume Commands Table
+
+| **Command**                       | **Description**                                                   |
+| --------------------------------- | ----------------------------------------------------------------- |
+| `docker volume create my-volume`  | Creates a new volume named **my-volume**.                         |
+| `docker volume ls`                | Lists all existing volumes on your system.                        |
+| `docker volume inspect my-volume` | Shows detailed information about a specific volume.               |
+| `docker volume rm my-volume`      | Deletes a specific volume. *Fails if the volume is in use.*       |
+| `docker volume prune`             | Deletes all **unused** volumes not associated with any container. |
+
+---
 
 
