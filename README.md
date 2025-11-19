@@ -1361,4 +1361,232 @@ Here is your **README.md–ready version**, clean and properly formatted:
 
 ---
 
+# 📦 Docker Storage Types – Full Guide with Examples
+
+This README explains the **4 types of Docker storage** with **beginner-friendly, step-by-step examples**:
+✔️ Ephemeral Storage
+✔️ Volumes
+✔️ Bind Mounts
+✔️ tmpfs (in-memory)
+
+---
+
+# 🗂️ **1. Ephemeral Storage (Container Filesystem)**
+
+Temporary storage **inside** the container.
+⚠️ Data is deleted when the container is deleted.
+
+---
+
+## 🔹 **Create container**
+
+```bash
+docker run -it --name test-ephemeral ubuntu bash
+```
+
+## 🔹 **Create a file inside the container**
+
+```bash
+echo "hello" > /myfile.txt
+cat /myfile.txt
+```
+
+## 🔹 **Exit**
+
+```bash
+exit
+```
+
+## 🔹 **Start the container again**
+
+```bash
+docker start -i test-ephemeral
+cat /myfile.txt
+```
+
+✔️ File still exists (container still alive)
+
+## 🔹 **Remove container**
+
+```bash
+docker rm -f test-ephemeral
+```
+
+### ✔ Result
+
+Ephemeral storage is **gone forever** when the container is removed.
+
+---
+
+# 🗄️ **2. Docker Volume (Persistent Storage)**
+
+Volumes store data **outside the container**, on the host.
+✔ Data survives container restarts & deletion
+✔ Best for databases, logs, app data
+
+---
+
+## 🔹 **Create a volume**
+
+```bash
+docker volume create myvolume
+```
+
+## 🔹 **Inspect the volume**
+
+```bash
+docker volume inspect myvolume
+```
+
+## 🔹 **Run container with volume**
+
+```bash
+docker run -it --name test-volume -v myvolume:/data ubuntu bash
+```
+
+## 🔹 **Create file in volume**
+
+```bash
+echo "volume data" > /data/file.txt
+cat /data/file.txt
+```
+
+## 🔹 **Remove the container**
+
+```bash
+exit
+docker rm -f test-volume
+```
+
+## 🔹 **Run a new container using the same volume**
+
+```bash
+docker run -it -v myvolume:/data ubuntu bash
+```
+
+## 🔹 **Verify data**
+
+```bash
+cat /data/file.txt
+```
+
+### ✔ Result
+
+Volume data **persists**, even after deleting the first container.
+
+---
+
+# 🗂️ **3. Bind Mount (Host Directory → Container)**
+
+Bind Mount connects a **real host folder** into a container.
+✔ Real-time sync between host & container
+✔ Perfect for development
+
+---
+
+## 🔹 **Create folder on host**
+
+```bash
+mkdir /home/user/myapp
+echo "hello from host" > /home/user/myapp/hostfile.txt
+```
+
+## 🔹 **Run container with bind mount**
+
+```bash
+docker run -it --name test-bind \
+  -v /home/user/myapp:/app ubuntu bash
+```
+
+## 🔹 **Check files inside container**
+
+```bash
+ls /app
+cat /app/hostfile.txt
+```
+
+## 🔹 **Create a file from inside the container**
+
+```bash
+echo "created inside container" > /app/containerfile.txt
+```
+
+## 🔹 **Check file on host**
+
+```bash
+cat /home/user/myapp/containerfile.txt
+```
+
+### ✔ Result
+
+Host ↔ Container file sync works perfectly.
+
+## 🔹 **Inspect the container**
+
+```bash
+docker inspect test-bind
+```
+
+---
+
+# ⚡ **4. tmpfs Storage (RAM Storage)**
+
+tmpfs stores data **only in RAM**, not on disk.
+✔ Super fast
+✔ Good for sensitive data
+⚠ Data disappears when container restarts
+
+---
+
+## 🔹 **Run container with tmpfs**
+
+```bash
+docker run -it --name test-tmpfs \
+  --tmpfs /ramdisk ubuntu bash
+```
+
+## 🔹 **Create file in RAM**
+
+```bash
+echo "in-memory data" > /ramdisk/temp.txt
+cat /ramdisk/temp.txt
+```
+
+## 🔹 **Restart the container**
+
+```bash
+exit
+docker start -i test-tmpfs
+```
+
+## 🔹 **Check RAM directory**
+
+```bash
+ls /ramdisk
+```
+
+### ❌ Result
+
+File disappears → stored only in RAM.
+
+## 🔹 **Inspect tmpfs mount**
+
+```bash
+docker inspect test-tmpfs
+```
+
+---
+
+# 📘 **Summary Table**
+
+| Storage Type   | Persistent? | Location                   | Use Case                   |
+| -------------- | ----------- | -------------------------- | -------------------------- |
+| **Ephemeral**  | ❌ No        | Inside container           | Temporary files            |
+| **Volume**     | ✔ Yes       | Host (Docker-managed)      | Databases, logs, user data |
+| **Bind Mount** | ✔ Yes       | Host (user-defined folder) | Development, local files   |
+| **tmpfs**      | ❌ No        | RAM                        | Sensitive or fast data     |
+
+---
+
+
 
