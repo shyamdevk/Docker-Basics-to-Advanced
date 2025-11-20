@@ -1682,34 +1682,34 @@ services:
 
 ```
                    ┌───────────────────────────────┐
-                   │         docker-compose.yml     │
-                   │  (Defines all services here)   │
+                   │         docker-compose.yml    │
+                   │  (Defines all services here)  │
                    └───────────────────────────────┘
                                    │
                                    ▼
         ┌────────────────────────────────────────────────────┐
-        │                    Docker Compose                   │
-        │   Reads YAML → Creates containers, networks, etc.   │
+        │                    Docker Compose                  │
+        │   Reads YAML → Creates containers, networks, etc.  │
         └────────────────────────────────────────────────────┘
                                    │
         ┌────────────────────────────────────────────────────┐
-        │                     Docker Network                  │
-        │         (Auto-created, lets services talk)          │
+        │                     Docker Network                 │
+        │         (Auto-created, lets services talk)         │
         └────────────────────────────────────────────────────┘
-        │                           │
-        │                           │
-        ▼                           ▼
-┌──────────────────┐        ┌──────────────────┐
-│     web service   │        │     db service   │
-│   (Nginx/Python)  │        │     (MySQL)       │
-└──────────────────┘        └──────────────────┘
-        │                           │
-        │                           │
-        ▼                           ▼
-┌──────────────────┐        ┌────────────────────────┐
-│ Container Filesys │        │  Docker Volume (data)  │
-│  (Ephemeral)      │        │ Persistent DB Storage  │
-└──────────────────┘        └────────────────────────┘
+                 │                                │
+                 │                                │
+                 ▼                                ▼
+        ┌──────────────────┐             ┌──────────────────┐
+        │     web service  │             │     db service   │
+        │   (Nginx/Python) │             │     (MySQL)      │
+        └──────────────────┘             └──────────────────┘
+                 │                                 │
+                 │                                 │
+                 ▼                                 ▼
+        ┌──────────────────┐            ┌────────────────────────┐
+        │ Container Filesys│            │  Docker Volume (data)  │
+        │  (Ephemeral)     │            │ Persistent DB Storage  │
+        └──────────────────┘            └────────────────────────┘
 ```
 
 ---
