@@ -1741,7 +1741,7 @@ services:
 
 ✨ *Docker Compose = One file + one command to run your whole application.*
 
-# 🐳 Multi-Stage Docker Build — Beginner Notes
+# 🐳 Multi-Stage Docker Build 
 
 Multi-stage Docker builds allow you to **use multiple `FROM` statements** inside a single Dockerfile.  
 This helps you build your application in one stage and produce a **small, clean, optimized final image** in another stage.
