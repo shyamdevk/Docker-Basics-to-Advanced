@@ -1965,6 +1965,92 @@ You have now:
 * Pulled it back from the cloud
 
 
+# 🐳 Push Docker Image to GHCR (GitHub Container Registry)
+
+This guide explains the **simplest and beginner-friendly method** to log in to GHCR, tag an image, push it, and verify it on your GitHub account.
+
+---
+
+## ✅ 1️⃣ Generate a GitHub Token
+
+Before pushing images, you need a **GitHub Personal Access Token (PAT)**.
+
+Create one here:  
+👉 https://github.com/settings/tokens?type=beta
+
+### Make sure the token has these permissions:
+- `read:packages`
+- `write:packages`
+- (Optional) `delete:packages`
+
+Copy the token — you will use it during login.
+
+---
+
+## ✅ 2️⃣ Login to GHCR
+
+Use the following command:
+
+```bash
+docker login ghcr.io -u shyamdevk
+````
+
+Docker will ask for your **password** →
+Paste your **GitHub Token** (NOT your GitHub password).
+
+---
+
+## 🏷️ 3️⃣ Tag Your Docker Image for GHCR
+
+Format:
+
+```
+ghcr.io/USERNAME/IMAGE_NAME:TAG
+```
+
+Example for your username:
+
+```bash
+docker tag simple-test-image ghcr.io/shyamdevk/simple-test-image:1.0
+```
+
+---
+
+## 🚀 4️⃣ Push the Image to GHCR
+
+```bash
+docker push ghcr.io/shyamdevk/simple-test-image:1.0
+```
+
+---
+
+## 🔍 5️⃣ Verify Image on GitHub
+
+Visit your packages page:
+
+```
+https://github.com/shyamdevk?tab=packages
+```
+
+You will see your pushed image listed there.
+
+---
+
+# 🎯 Quick Summary (Copy-Paste Friendly)
+
+```bash
+# Login to GHCR
+docker login ghcr.io -u shyamdevk
+
+# Tag Image
+docker tag simple-test-image ghcr.io/shyamdevk/simple-test-image:1.0
+
+# Push Image
+docker push ghcr.io/shyamdevk/simple-test-image:1.0
+```
+
+---
+
 
 
 
