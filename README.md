@@ -1,5 +1,5 @@
 # 🐳 Docker & Containerization — Complete Guide
-
+![Docker GIF](docker.gif)
 ---
 
 ## 🖥️ 1. Virtual Machine (VM)
