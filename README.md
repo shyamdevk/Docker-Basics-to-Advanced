@@ -754,6 +754,9 @@ A **Microservices Architecture** divides an application into **small, independen
 ---
 # 🌐 Docker Networking — Explained
 
+
+![Docker](https://github.com/shyamdevk/Docker-Basics-to-Advanced/blob/images/network.gif)
+
 Docker Networking allows containers to **communicate** with each other and with the **outside world**.  
 It provides **isolated environments** where containers can connect, share data, and send/receive traffic safely.
 
@@ -1151,6 +1154,7 @@ GitHub: *[https://github.com/shyamdevk/Docker-Word-Counter-App](https://github.c
 
 ---
 # 🐳 Docker Storage – Complete Notes (4 Types)
+![Docker](https://github.com/shyamdevk/Docker-Basics-to-Advanced/blob/images/volume.gif)
 
 Docker provides multiple storage mechanisms to handle data inside containers.
 Some data is **temporary (ephemeral)**, and some is **persistent** even after container deletion.
